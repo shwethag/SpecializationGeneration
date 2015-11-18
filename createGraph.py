@@ -6,6 +6,18 @@ import matplotlib.pyplot as plt
 graph={}
 topic_words={}
 
+doc_topwords = {}
+
+def loadDocTopwords():
+	f = open('./topwords.txt')
+	lines = f.readlines()
+	for line in lines:
+		line = line.rstrip('\n').split('|')
+		docname = line[0]
+		topwords = line[1].split(',')
+		doc_topwords[docname] = topwords
+
+
 def readGraph():
 	f=open('../aan/release/2013/acl.txt', 'r')
 	lines=f.readlines()
@@ -30,12 +42,19 @@ def detectComm(G):
 	size = float(len(set(partition.values())))
 	pos = nx.spring_layout(G)
 	count = 0.
-	for com in set(partition.values()) :
+	print "Community top words "
+	    
+	for com in set(partition.values()):
 	    count = count + 1.
 	    list_nodes = [nodes for nodes in partition.keys() if partition[nodes] == com]
-	    print "*********"
-	    print "Community ",com
-	    print list_nodes
+	    print "*********Community ",com,"************"
+	    for node in list_nodes:
+	     	print 'Document name:',node,'-->', ','.join(doc_topwords[node])
+	     	#wlist = doc_topwords[node]
+	     	#for word in wlist:
+	     	#	print word,
+	     	print
+	    print "***********"
 	    nx.draw_networkx_nodes(G, pos, list_nodes, node_size = 20, node_color = str(count / size))
 
 	nx.draw_networkx_edges(G,pos, alpha=0.5)
@@ -111,7 +130,7 @@ def listTopics():
 
 
 readGraph()
-
+loadDocTopwords()
 f=open('lda_res1.txt','r')
 fdata=f.readlines()
 f.close()
