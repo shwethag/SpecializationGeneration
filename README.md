@@ -2,7 +2,7 @@
 Project involves clustering of given set of research papers based on subfields and further identifying the specializations in chosen cluster.
 
 
-#Steps to intsall gensim :
+#Steps to install gensim :
 ----------------------------------------
 1. Get ready
 2. sudo apt-get install python-numpy
